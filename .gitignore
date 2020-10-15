@@ -1,5 +1,6 @@
 node_modules/
 data_private/
 docs/
+secrets/
 tmp_data/
 .env

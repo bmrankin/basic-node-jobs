@@ -37,4 +37,16 @@ export default class Utils {
     return arr
   }
 
+  /**
+   *
+   * @param {number} ms
+   */
+  static delay (ms) {
+    const n = parseFloat(ms)
+    if (isNaN(n)) {
+      throw 'Time needs to be a number in milliseconds'
+    } else {
+      return new Promise(resolve => setTimeout(resolve, ms))
+    }
+  }
 }
