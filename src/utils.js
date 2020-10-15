@@ -1,3 +1,5 @@
+import fs from 'fs/promises'
+
 /**
  * This Utils class can be used for common methods that can be accessed across the repo
  */
@@ -49,4 +51,10 @@ export default class Utils {
       return new Promise(resolve => setTimeout(resolve, ms))
     }
   }
+
+  static readJsonFromFile = async (file = 'temp_data/data') => {
+    const data = await fs.readFile(file)
+    return JSON.parse(data)
+  }
+
 }
