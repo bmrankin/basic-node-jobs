@@ -52,9 +52,43 @@ export default class Utils {
     }
   }
 
-  static readJsonFromFile = async (file = 'temp_data/data') => {
+  static async readJsonFromFile (file = 'temp_data/data') {
     const data = await fs.readFile(file)
     return JSON.parse(data)
   }
 
+  /**
+   * `splitPath()` is used to help get to docs in a collection>doc>subcollection>doc pattern
+   * @param {string} path - path string
+   * @return {{ segments: Array, original: string, cleanPath: string, length: number, type: string }} Object of all items needed to help get to the correct document or collection in Firestore
+   */
+  static splitPath (path) {
+    const cleanPath = path.startsWith('/') ? path.substring(1) : path
+    const segments = cleanPath.split('/')
+    return {
+      segments: segments,
+      original: path,
+      cleanPath: cleanPath,
+      length: segments.length,
+      type: this.isDocument(segments.length) ? 'document' : 'collection'
+    }
+  }
+
+  /**
+   *
+   * @param {number} length - length of segments in a Firestore path
+   * @return {boolean} Evaluates whether this is a path to a document
+   */
+  static isDocument(length) {
+    return length > 0 && length % 2 === 0
+  }
+
+  /**
+   *
+   * @param {number} length - length of segments in a Firestore path
+   * @returns {boolean} Evaluates whether this is a path to a document
+   */
+   static isCollection(length) {
+    return length % 2 === 1
+  }
 }
